@@ -21,7 +21,7 @@ This is a simple CRUD-style web application built with .NET 8 and AngularJS 1.8.
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repo/showcase-app.git
+   git clone https://github.com/ThatGuyWilliam/Showcase.git
    cd showcase-app
    ```
 
