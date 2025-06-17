@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <h1>Angular</h1>
+    <img class="align-content-center" src="~/css/images/angularlogo.png" />
+    <title>AngularJS Post Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="Home">
+    <div>
+        <label>Name:</label>
+        <br>
+        <input placeholder="Name" ng-model="formData.name">
+    </div>
+    <div>
+        <label>Description:</label>
+        <br>
+        <input placeholder="Desc" ng-model="formData.description">
+    </div>
+    <div>
+        <input type="checkbox" id="hiddenCB" ng-model="formData.hidden">
+        <label for="hiddenCB"> Hidden</label>
+    </div>
+    <button class="btn btn-success" ng-click="save()">Save</button>
+
+    <p class="alert-success" ng-if="message">{{ message }}</p>
+    <hr />
+    <h2>All Showcases</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Is Hidden</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in showcases">
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td ng-if="!item.isHidden">
+                    <button class="btn btn-danger" ng-click="hide(item.id)">Hide</button>
+                </td>
+                <td ng-if="item.isHidden">
+                    Hidden
+                </td>
+               
+            </tr>
+
+
+
+        </tbody>
+    </table>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('Home', function ($scope, $http) {
+            $scope.formData = {};
+            $scope.showcases = [];
+
+            $scope.hide = function(id) {
+            $http.post('/Home/HideShowcases?id=' + id)
+                .then(function(response) {
+                    // $scope.message = "Showcase hidden successfully!";
+                    swal("Success", "Showcase Hidden Sucessfully", "success");
+                    $scope.loadShowcases();
+                }, function(error) {
+                    // console.error("Error hiding showcase", error);
+                    swal("Error", "Error Hiding Showcase", "error");
+                });
+        };
+            
+            $scope.loadShowcases = function () {
+                $http.get('/Home/GetAllShowcases')
+                    .then(function (response) {
+                        $scope.showcases = response.data;
+                    }, function (error) {
+                        // console.error("Error loading showcases", error);
+                        swal("Error", "Error loading Showcase", "error");
+                    });
+            };
+
+            $scope.save = function () {
+                $http.post('/Home/SaveData', $scope.formData)
+                    .then(function (response) {
+                        // $scope.message = "Data saved successfully!";
+                        swal("Success", "Showcase Saved Sucessfully", "success");
+                        $scope.loadShowcases();
+                    }, function (error) {
+                        swal("Error", "Error Saving Showcase", "error");
+                    });
+            };
+            $scope.loadShowcases();
+        });
+    </script>
+</body>
+</html>
+

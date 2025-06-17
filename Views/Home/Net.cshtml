@@ -1,0 +1,131 @@
+﻿@using Showcase.Models.ViewModels
+
+@model List<ShowcaseVM>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<div class="mt-4 p-5 bg-danger text-white rounded">
+    <h1>.NET Functionality</h1>
+    <p>(HTML/Javascript/Ajax)</p>
+</div>
+<hr />
+<h4>Showcase Save</h4>
+<label>Name:</label>
+<br>
+<input id="name" placeholder="Name">
+<br>
+<label>Description:</label>
+<br>
+<input id="description" placeholder="Desc">
+<br>
+<input type="checkbox" id="hiddenCB">
+<label for="vehicle1"> Hidden</label>
+<br>
+<br>
+<button class="btn btn-success" onclick="Save()">Save</button>
+<hr />
+<h4>Showcase Display</h4>
+<button class="btn btn-success" onclick="refresh()">Refresh Data</button>
+<hr /> 
+<br />
+
+    <table>
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Is Hidden</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                @if (!item.isHidden)
+                    {
+                    <td>
+                        <button onclick="Hide(@item.ID)" class="btn btn-danger">Hide</button>
+                    </td>
+                    }
+                    else
+                    {
+                    <td>
+                        Hidden
+                    </td>
+                    }
+                
+            </tr>
+            }
+                
+            
+        </tbody>
+    </table>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    function refresh(){
+        window.location.reload();
+    }
+
+    function Hide(ID){
+        if(ID != 0 || null){
+        $.ajax({
+            type: "DELETE",
+            url: '@Url.Action("HideShowcases", "Home")',
+                data: {
+                    'id': ID
+            },
+            async: true,
+            success: function (data) {
+                if (data.success) {
+                    swal("Success", "Showcase Hidden Sucessfully", "success");
+                    
+                }
+                else {
+                    swal("Error", "Error Hiding Showcase", "error");
+                }
+            }
+        });
+        }
+    }
+
+    function Save() {
+        var name = $("#name").val();
+        var description = $("#description").val();
+        var hidden = document.querySelector('#hiddenCB').checked;
+        if (name == "" || description == "") {
+            swal("Error", "All Fields Are Required", "error");
+        }
+        else {
+
+            $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveShowcase", "Home")',
+                data: {
+                    'name': name,
+                    'description': description,
+                    'hidden': hidden
+            },
+            async: true,
+            success: function (data) {
+                if (data.success) {
+                    document.getElementById('name').value = "";
+                    document.getElementById('description').value = "";
+                    document.querySelector('#hiddenCB').checked = false;
+                    swal("Success", "Showcase Saved Sucessfully", "success");
+
+                }
+                else {
+                    swal("Error", "Error Saving Showcase", "error");
+
+                }
+            }
+        });
+        }
+    }
+
+</script>
