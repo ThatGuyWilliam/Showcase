@@ -4457,11 +4457,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\SkillShowcase\\Showcase\\Showcase.csproj",
+      "projectUniqueName": "C:\\Users\\William\\Documents\\GitHub\\Showcase\\Showcase.csproj",
       "projectName": "Showcase",
-      "projectPath": "D:\\Projects\\SkillShowcase\\Showcase\\Showcase.csproj",
+      "projectPath": "C:\\Users\\William\\Documents\\GitHub\\Showcase\\Showcase.csproj",
       "packagesPath": "C:\\Users\\William\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\SkillShowcase\\Showcase\\obj\\",
+      "outputPath": "C:\\Users\\William\\Documents\\GitHub\\Showcase\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
